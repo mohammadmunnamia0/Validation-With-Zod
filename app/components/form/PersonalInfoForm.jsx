@@ -254,7 +254,7 @@ const PersonalInfoForm = ({
             inputMode="numeric"
             pattern="\d*"
             className="form-input"
-            placeholder="Enter your phone number (numbers only)"
+            placeholder="Enter your phone number (numbers only at 10 digit)"
             {...register("phoneNumber")}
             value={formData.phoneNumber}
             onChange={handleInputChange}

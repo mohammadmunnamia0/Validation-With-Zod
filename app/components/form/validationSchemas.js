@@ -6,7 +6,7 @@ export const personalInfoSchema = z.object({
   email: z
     .string()
     .min(1, { message: "Email is required" })
-    .email({ message: "Invalid email format" }),
+    .email({ message: "Please enter a valid email address" }),
   phoneNumber: z
     .string()
     .min(1, { message: "Phone number is required" })
@@ -41,7 +41,7 @@ export const accountSchema = z
       .min(1, { message: "Confirm password is required" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
+    message: "Passwords must match",
     path: ["confirmPassword"],
   });
 

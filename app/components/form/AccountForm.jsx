@@ -229,7 +229,7 @@ const AccountForm = ({
             id="username"
             type="text"
             className="form-input"
-            placeholder="Choose a username"
+            placeholder="Choose a username min 4 characters"
             {...register("username")}
             value={formData.username}
             onChange={handleInputChange}

@@ -56,9 +56,7 @@ const AddressForm = ({
 
       // Check zipCode custom rules
       if (!/^\d+$/.test(formData.zipCode) || formData.zipCode.length < 5) {
-        throw new Error(
-          "Zip code must be at least 5 digits and contain only numbers"
-        );
+        throw new Error("Zip code must be at least 5 digits");
       }
 
       // Clear errors if successful
@@ -237,7 +235,7 @@ const AddressForm = ({
             inputMode="numeric"
             pattern="\d*"
             className="form-input"
-            placeholder="Enter your zip code (numbers only)"
+            placeholder="Enter your zip code min 5 digits"
             {...register("zipCode")}
             value={formData.zipCode}
             onChange={handleInputChange}
