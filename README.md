@@ -9,22 +9,6 @@
 - **Summary View** - Review all information before final submission
 - **Modern UI** - Clean, beautiful interface with Tailwind CSS
 
-## 🖥️ Screenshots
-
-<div align="center">
-  <table>
-    <tr>
-      <td align="center">
-        <strong>Light Mode</strong><br />
-        <img src="https://example.com/light-mode.png" width="400" alt="Light Mode Screenshot" />
-      </td>
-      <td align="center">
-        <strong>Dark Mode</strong><br />
-        <img src="https://example.com/dark-mode.png" width="400" alt="Dark Mode Screenshot" />
-      </td>
-    </tr>
-  </table>
-</div>
 
 ## 🚀 Getting Started
 
