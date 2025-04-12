@@ -1,1 +1,59 @@
 @import "tailwindcss";
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+@layer components {
+  .form-input {
+    @apply w-full rounded-md border border-gray-300 dark:border-gray-700 p-3 text-gray-900 dark:text-white 
+    bg-white dark:bg-gray-800 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all;
+  }
+  .form-label {
+    @apply block text-gray-700 dark:text-gray-300 mb-2 font-medium;
+  }
+  .form-error {
+    @apply mt-1 text-sm text-red-500 dark:text-red-400;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 text-base font-medium rounded-md 
+    focus:outline-none transition-colors 
+    bg-blue-600 hover:bg-blue-700 text-white;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 text-base font-medium rounded-md 
+    focus:outline-none transition-colors 
+    bg-gray-100 hover:bg-gray-200 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white;
+  }
+  .form-card {
+    @apply rounded-lg bg-white dark:bg-gray-800 p-6 md:p-8 border border-gray-100 dark:border-gray-700 shadow-sm;
+  }
+  .error-icon {
+    @apply w-4 h-4 text-red-500 mr-1.5;
+  }
+  .step-indicator {
+    @apply flex items-center justify-center w-10 h-10 rounded-full text-center text-lg font-medium border-2;
+  }
+  .step-active {
+    @apply bg-blue-600 text-white border-blue-600;
+  }
+  .step-completed {
+    @apply bg-green-500 text-white border-green-500;
+  }
+  .step-pending {
+    @apply bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-600;
+  }
+  .step-line {
+    @apply h-1 flex-1 mx-2;
+  }
+  .step-line-active {
+    @apply bg-blue-600;
+  }
+  .step-line-completed {
+    @apply bg-green-500;
+  }
+  .step-line-pending {
+    @apply bg-gray-300 dark:bg-gray-700;
+  }
+  .form-section {
+    @apply bg-white dark:bg-gray-800 rounded-md;
+  }
+}
