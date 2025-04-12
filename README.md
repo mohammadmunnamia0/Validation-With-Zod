@@ -1,20 +1,5 @@
 # Multi-Step Form with Zod Validation
 
-<div align="center">
-  <img src="https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React 19" />
-  <img src="https://img.shields.io/badge/Next.js-15.3.0-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js 15" />
-  <img src="https://img.shields.io/badge/Tailwind-4.1.3-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind 4" />
-  <img src="https://img.shields.io/badge/Zod-Latest-3068B7?style=for-the-badge" alt="Zod" />
-</div>
-
-<br />
-
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/1500684/158238105-e7279a0c-1640-40db-86b0-3d3a10aab824.png" width="180" alt="Project Icon" />
-</div>
-
-<p align="center">A beautifully designed multi-step form implementation with React, Next.js, and Zod validation.</p>
-
 ## ✨ Features
 
 - **Multi-step Form Process** - Guided step-by-step form completion
