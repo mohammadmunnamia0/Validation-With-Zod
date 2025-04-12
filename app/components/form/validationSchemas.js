@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-// Step 1: Personal Information
+// Define schemas for each form step with detailed validation rules
 export const personalInfoSchema = z.object({
   fullName: z.string().min(1, { message: "Full name is required" }),
   email: z
@@ -14,7 +14,6 @@ export const personalInfoSchema = z.object({
     .regex(/^\d+$/, { message: "Phone number must contain only digits" }),
 });
 
-// Step 2: Address Details
 export const addressSchema = z.object({
   streetAddress: z.string().min(1, { message: "Street address is required" }),
   city: z.string().min(1, { message: "City is required" }),
@@ -25,7 +24,7 @@ export const addressSchema = z.object({
     .regex(/^\d+$/, { message: "Zip code must contain only numbers" }),
 });
 
-// Step 3: Account Setup
+// Account schema with password matching validation
 export const accountSchema = z
   .object({
     username: z
@@ -45,7 +44,7 @@ export const accountSchema = z
     path: ["confirmPassword"],
   });
 
-// Combined schema for the entire form
+// Combined schema for the entire form data structure
 export const formSchema = z.object({
   personalInfo: personalInfoSchema,
   address: addressSchema,

@@ -14,7 +14,7 @@ const MultiStepForm = () => {
   const [step, setStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Form data for all steps
+  // Initialize form data structure with empty values
   const [formData, setFormData] = useState({
     personalInfo: {
       fullName: "",
@@ -33,26 +33,23 @@ const MultiStepForm = () => {
     },
   });
 
-  // Error state for each step
   const [errors, setErrors] = useState({});
 
-  // Flag to force showing all errors after clicking Next
+  // Controls whether to show all validation errors, triggered on Next/Submit
   const [showAllErrors, setShowAllErrors] = useState(false);
 
-  // Validate the current step
+  // Validates the current step data using Zod schemas
   const validateStep = async () => {
     try {
       let isValid = false;
 
       switch (step) {
         case 1:
-          // Validate personal info
           personalInfoSchema.parse(formData.personalInfo);
           isValid = true;
           break;
         case 2:
-          // Validate address
-          // Additional check for zip code to ensure it's numeric and at least 5 digits
+          // Extra validation for zipCode beyond the schema
           if (
             !/^\d+$/.test(formData.address.zipCode) ||
             formData.address.zipCode.length < 5
@@ -65,7 +62,7 @@ const MultiStepForm = () => {
           isValid = true;
           break;
         case 3:
-          // Validate account and check if passwords match
+          // Ensure passwords match before validation
           if (formData.account.password !== formData.account.confirmPassword) {
             throw new Error("Passwords must match");
           }
@@ -77,20 +74,16 @@ const MultiStepForm = () => {
           break;
       }
 
-      // Clear errors if validation succeeds
       setErrors({});
       return isValid;
     } catch (error) {
-      // Format errors for display
       const formattedErrors = {};
 
       if (error.errors) {
-        // Handle Zod validation errors
         error.errors.forEach((err) => {
           formattedErrors[err.path[0]] = err.message;
         });
       } else if (error.message) {
-        // Handle custom error messages
         if (error.message.includes("Zip code")) {
           formattedErrors.zipCode = error.message;
         } else if (error.message.includes("Passwords")) {
@@ -103,9 +96,8 @@ const MultiStepForm = () => {
     }
   };
 
-  // Next step handler
+  // Handles progression to next step after validation
   const handleNext = () => {
-    // Set flag to show all errors
     setShowAllErrors(true);
 
     validateStep().then((isValid) => {
@@ -113,29 +105,29 @@ const MultiStepForm = () => {
         if (step < 4) {
           setStep(step + 1);
           setErrors({});
-          setShowAllErrors(false); // Reset the flag for the next step
+          setShowAllErrors(false);
         }
       }
     });
   };
 
-  // Previous step handler
+  // Handles back navigation
   const handlePrevious = () => {
     if (step > 1) {
       setStep(step - 1);
       setErrors({});
-      setShowAllErrors(false); // Reset the flag when going back
+      setShowAllErrors(false);
     }
   };
 
-  // Submit form handler
+  // Validates and processes the final form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    setShowAllErrors(true); // Show all errors on submit attempt
+    setShowAllErrors(true);
 
     validateStep().then((isValid) => {
       if (isValid) {
-        // Create a copy of formData without the confirmPassword field for security
+        // Security: remove confirmPassword before submission
         const formDataToSubmit = {
           personalInfo: {
             ...formData.personalInfo,
@@ -146,11 +138,9 @@ const MultiStepForm = () => {
           account: {
             username: formData.account.username,
             password: formData.account.password,
-            // Remove confirmPassword for security
           },
         };
 
-        // Log the data to console in a nicely formatted way
         console.log("Form Data Submitted:");
         console.log(JSON.stringify(formDataToSubmit, null, 2));
 
@@ -159,7 +149,7 @@ const MultiStepForm = () => {
     });
   };
 
-  // Update form data handler and trigger validation
+  // Updates form data while preserving structure
   const updateFormData = (section, data) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -183,7 +173,7 @@ const MultiStepForm = () => {
     }
   };
 
-  // Render current step form
+  // Renders the appropriate form based on current step
   const renderStepForm = () => {
     switch (step) {
       case 1:
@@ -223,7 +213,7 @@ const MultiStepForm = () => {
     }
   };
 
-  // Progress indicator with step circles and connecting lines
+  // Renders the progress indicator with step circles
   const renderStepIndicator = () => {
     return (
       <div className="flex justify-center items-center mb-6">
@@ -251,7 +241,7 @@ const MultiStepForm = () => {
     );
   };
 
-  // Render the current form with navigation buttons
+  // Main form UI with navigation buttons
   const renderCurrentForm = () => {
     return (
       <div className="bg-purple-600 min-h-screen flex justify-center items-center p-4">
@@ -294,7 +284,7 @@ const MultiStepForm = () => {
     );
   };
 
-  // Render success message after submission
+  // Success screen shown after form submission
   if (isSubmitted) {
     return (
       <div className="bg-purple-600 min-h-screen flex justify-center items-center p-4">

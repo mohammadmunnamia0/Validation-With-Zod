@@ -11,7 +11,6 @@ const AddressForm = ({
   setErrors,
   showAllErrors,
 }) => {
-  // Track which fields have been interacted with
   const [touchedFields, setTouchedFields] = useState({});
 
   const {
@@ -27,46 +26,36 @@ const AddressForm = ({
     mode: "onChange",
   });
 
-  // Watch for changes in all fields
   const watchedValues = watch();
 
-  // When showAllErrors becomes true, validate all fields and mark them as touched
+  // Handle showing all errors when Next button is clicked
   useEffect(() => {
     if (showAllErrors) {
-      // Trigger validation for all fields
       trigger();
-
-      // Mark all fields as touched
       setTouchedFields({
         streetAddress: true,
         city: true,
         zipCode: true,
       });
-
-      // Validate the entire form and set errors
       validateAllFields();
     }
   }, [showAllErrors, trigger]);
 
-  // Function to validate all fields at once
+  // Comprehensive form validation
   const validateAllFields = async () => {
     try {
-      // Try to validate the entire form
       await addressSchema.parseAsync(formData);
 
-      // Check zipCode custom rules
+      // Additional zip code validation beyond schema
       if (!/^\d+$/.test(formData.zipCode) || formData.zipCode.length < 5) {
         throw new Error("Zip code must be at least 5 digits");
       }
 
-      // Clear errors if successful
       setErrors({});
     } catch (error) {
-      // Format and set errors
       const formattedErrors = {};
 
       if (error.errors) {
-        // Handle Zod validation errors
         error.errors.forEach((err) => {
           formattedErrors[err.path[0]] = err.message;
         });
@@ -78,32 +67,27 @@ const AddressForm = ({
     }
   };
 
-  // Validate field on input change
+  // Real-time field validation during typing
   const validateField = async (fieldName, value) => {
     try {
-      // Special handling for zipCode
+      // Special zipCode validation with numeric and length requirements
       if (fieldName === "zipCode") {
-        // Handle empty case - don't show error yet
         if (value.length === 0) {
           if (errors[fieldName]) {
-            // Clear the error if the field is empty (will be caught on submission)
             setErrors((prev) => {
               const newErrors = { ...prev };
               delete newErrors[fieldName];
               return newErrors;
             });
           }
-          // Clear form errors too
           clearFormErrors(fieldName);
           return true;
         }
 
-        // Special handling for zipCode to enforce numeric only and min length
         const zipRegex = /^\d+$/;
         const isValid = zipRegex.test(value) && value.length >= 5;
 
         if (isValid) {
-          // If valid and there's an error, clear it
           if (errors[fieldName]) {
             setErrors((prev) => {
               const newErrors = { ...prev };
@@ -111,22 +95,18 @@ const AddressForm = ({
               return newErrors;
             });
           }
-          // Clear form errors too
           clearFormErrors(fieldName);
           return true;
         } else {
-          // Don't set error yet, just return false
           return false;
         }
       }
-      // Handle other fields
+      // Standard validation for other fields
       else {
-        // For other fields, use standard Zod validation
         await addressSchema
           .pick({ [fieldName]: true })
           .parseAsync({ [fieldName]: value });
 
-        // If successful and there's an error for this field, clear it
         if (errors[fieldName]) {
           setErrors((prev) => {
             const newErrors = { ...prev };
@@ -134,44 +114,37 @@ const AddressForm = ({
             return newErrors;
           });
         }
-        // Clear form errors too
         clearFormErrors(fieldName);
         return true;
       }
     } catch (error) {
-      // The field is invalid, but don't set errors here
       return false;
     }
   };
 
-  // Function to handle input changes and update parent state
+  // Handle input changes with validation
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // For zipCode, only allow numeric input
+    // Restrict zipCode to numeric input only
     if (name === "zipCode" && value !== "" && !/^\d*$/.test(value)) {
-      return; // Don't update if non-numeric characters are entered
+      return;
     }
 
-    // Mark the field as touched
     setTouchedFields((prev) => ({
       ...prev,
       [name]: true,
     }));
 
-    // Update form data
-    const updatedData = {
+    setFormData({
       ...formData,
       [name]: value,
-    };
+    });
 
-    setFormData(updatedData);
-
-    // Validate the field immediately when it changes
     validateField(name, value);
   };
 
-  // Helper function to determine if an error should be shown
+  // Determine when to show error messages
   const shouldShowError = (fieldName) => {
     return (
       (touchedFields[fieldName] || showAllErrors) &&
